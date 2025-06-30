@@ -1,8 +1,6 @@
-import { initialCards } from '../scripts/cards.js';
-import { placesList } from '../scripts/index.js';
-import { cardTemplate } from '../scripts/index.js';
+const cardTemplate = document.querySelector('#card-template').content;
 
-function createCard(arrayElement, deleteCard, like) {
+function createCard(arrayElement, deleteCard, like, openImage) {
 
     const newCardFragment = cardTemplate.cloneNode(true);
     const newCard = newCardFragment.querySelector('.card');
@@ -16,6 +14,7 @@ function createCard(arrayElement, deleteCard, like) {
     cardImg.src = arrayElement.link;
     cardImg.alt = `Фотография места: ${arrayElement.name}`;
 
+    cardImg.addEventListener('click', (evt) => openImage(evt));
     deleteButton.addEventListener('click', () => deleteCard(newCard));
     likeButton.addEventListener('click', () => like(newCard));
 
@@ -31,10 +30,4 @@ function likeCard(card) {
     likeButton.classList.toggle('card__like-button_is-active');
 }
 
-function pushCards() {
-    initialCards.forEach(function (item) {
-        placesList.append(createCard(item, removeCard, likeCard))
-    });
-}
-
-export { createCard, removeCard, pushCards };
+export { createCard, removeCard, likeCard };

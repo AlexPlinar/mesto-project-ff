@@ -1,6 +1,6 @@
 function openPopup(popup) {
     popup.classList.add('popup_is-opened');
-    popup.addEventListener('click', handleOverlayClick);
+    popup.addEventListener('mousedown', handleOverlayClick);
     document.addEventListener('keydown', handleEscClose);
 }
 
@@ -21,7 +21,7 @@ function handleEscClose(evt) {
 
 function closePopup(popup) {
     popup.classList.remove('popup_is-opened');
-    popup.removeEventListener('click', handleOverlayClick);
+    popup.removeEventListener('mousedown', handleOverlayClick);
     document.removeEventListener('keydown', handleEscClose);
 }
 

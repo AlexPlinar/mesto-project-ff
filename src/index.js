@@ -4,6 +4,9 @@ import { initialCards } from './scripts/cards.js';
 import { createCard, removeCard, likeCard } from './components/card.js'
 import { openPopup, closePopup } from './components/modal.js';
 
+import { enableValidation } from './components/validation.js';
+import { clearValidation } from './components/validation.js';
+
 const placesList = document.querySelector('.places__list');
 const addForm = document.forms['new-place'];
 const editForm = document.forms['edit-profile'];
@@ -78,7 +81,7 @@ function handleAddFormSubmit(evt) {
     addForm.reset();
     closePopup(newCardPopup);
 }
- 
+
 function pushCards(data) {
 
     if (Array.isArray(data)) {
@@ -94,5 +97,12 @@ function pushCards(data) {
 pushCards(initialCards);
 export { pushCards };
 
-
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+});
 

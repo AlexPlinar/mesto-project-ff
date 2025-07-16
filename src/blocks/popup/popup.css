@@ -21,3 +21,12 @@
   right: 0;
   z-index: 10;
 }
+
+/* TODO: удалить либо перенести в другой файл */
+.popup__input:valid {
+  border: 2px solid greenyellow;
+}
+
+.popup__input:invalid {
+  border: 2px solid red;
+}

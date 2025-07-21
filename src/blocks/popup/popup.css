@@ -23,10 +23,27 @@
 }
 
 /* TODO: удалить либо перенести в другой файл */
-.popup__input:valid {
+/* .popup__input:valid {
   border: 2px solid greenyellow;
 }
 
 .popup__input:invalid {
   border: 2px solid red;
+} */
+
+.popup__input_type_error {
+  border-bottom: 2px solid red;
+}
+
+.popup__error_visible {
+  display: block;
+}
+
+.popup__input-error {
+  font-size: 12px;
+  color: red;
+}
+
+.popup__input:focus {
+  outline: none;
 }

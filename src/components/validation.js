@@ -23,7 +23,7 @@ function checkInputValidity(formElement, inputElement, settings) {
     const regex = /^[a-zа-яё\s-]+$/i;
     const inputValue = inputElement.value.trim();
 
-    if (inputValue && !regex.test(inputValue)) {
+    if (inputValue && !regex.test(inputValue) && inputElement.type !== 'url') {
         inputElement.setCustomValidity('Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы');
     } else {
         inputElement.setCustomValidity('');

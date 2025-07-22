@@ -38,6 +38,7 @@ editButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', () => {
     openPopup(newCardPopup);
+    resetValidation(addForm, settings);
 });
 
 places.addEventListener('click', (evt) => {

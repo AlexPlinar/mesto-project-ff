@@ -47,3 +47,10 @@
 .popup__input:focus {
   outline: none;
 }
+
+.popup__button_disabled {
+  background-color: transparent;
+  border: 1px solid black;
+  opacity: 20%;
+  color: black;
+}

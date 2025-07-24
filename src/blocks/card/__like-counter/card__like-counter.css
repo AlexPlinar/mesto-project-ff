@@ -1,0 +1,5 @@
+.card__like-counter {
+    position: absolute;
+    top: 100%;
+    font-size: 13px;
+}

@@ -9,12 +9,20 @@ function createCard(arrayElement, deleteCard, like) {
     const cardImg = newCard.querySelector('.card__image');
     const deleteButton = newCard.querySelector('.card__delete-button');
     const likeButton = newCard.querySelector('.card__like-button');
+    const likeCounter = newCard.querySelector('.card__like-counter');
 
     cardTitle.textContent = arrayElement.name;
     cardImg.src = arrayElement.link;
     cardImg.alt = `Фотография места: ${arrayElement.name}`;
+    likeCounter.textContent = arrayElement.likes.length;
 
-    deleteButton.addEventListener('click', () => deleteCard(newCard));
+    if (arrayElement.owner._id !== '0d4ae9487faefafd4947f3cc') {
+        deleteButton.classList.add('card__delete-button_hidden');
+        deleteButton.disabled = true;
+    } else {
+        deleteButton.addEventListener('click', () => deleteCard(newCard));
+    }
+
     likeButton.addEventListener('click', () => like(newCard));
 
     return newCard;

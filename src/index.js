@@ -4,7 +4,8 @@ import { initialCards } from './scripts/cards.js';
 import { createCard, removeCard, likeCard } from './components/card.js'
 import { openPopup, closePopup } from './components/modal.js';
 
-import { enableValidation, resetValidation } from './components/validation.js';
+import { enableValidation, clearValidation } from './components/validation.js';
+import { fetchUserInfo, fetchCards, updateUserInfo, postCard } from './scripts/api.js';
 
 const placesList = document.querySelector('.places__list');
 const addForm = document.forms['new-place'];
@@ -25,6 +26,7 @@ const cardNameInput = addForm.querySelector('.popup__input_type_card-name')
 const cardUrlInput = addForm.querySelector('.popup__input_type_url');
 const currentName = document.querySelector('.profile__title');
 const currentJob = document.querySelector('.profile__description');
+const currentImage = document.querySelector('.profile__image');
 
 addForm.addEventListener('submit', handleAddFormSubmit)
 editForm.addEventListener('submit', handleEditFormSubmit);
@@ -33,12 +35,12 @@ editButton.addEventListener('click', () => {
     nameInput.value = currentName.textContent;
     jobInput.value = currentJob.textContent;
     openPopup(editPopup);
-    resetValidation(editForm, settings);
+    clearValidation(editForm, settings);
 });
 
 addButton.addEventListener('click', () => {
     openPopup(newCardPopup);
-    resetValidation(addForm, settings);
+    clearValidation(addForm, settings);
 });
 
 places.addEventListener('click', (evt) => {
@@ -66,6 +68,15 @@ function handleEditFormSubmit(evt) {
     currentName.textContent = nameInput.value;
     currentJob.textContent = jobInput.value;
 
+    updateUserInfo(currentName.textContent, currentJob.textContent)
+        .then(data => {
+            console.log(`На сервер записана новая информация пользователя:`);
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(`Ошибка: ${error}`);
+        })
+
     editForm.reset();
     closePopup(editPopup);
 }
@@ -78,12 +89,20 @@ function handleAddFormSubmit(evt) {
         link: cardUrlInput.value,
     }
 
-    pushCards(card);
-    addForm.reset();
-    closePopup(newCardPopup);
+    postCard(card)
+        .then(serverCard => {
+            console.log('Карта добавлена на сервер: ');
+            console.log(serverCard);
+            pushCards(serverCard);
+            closePopup(newCardPopup);
+            addForm.reset();
+        })
+        .catch(error => {
+            console.log(`Ошибка при добавлении карточки: ${error}`);
+        })
 }
 
-function pushCards(data) {
+export function pushCards(data) {
 
     if (Array.isArray(data)) {
         data.forEach(function (item) {
@@ -95,9 +114,6 @@ function pushCards(data) {
     };
 };
 
-pushCards(initialCards);
-export { pushCards };
-
 const settings = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -107,4 +123,22 @@ const settings = {
     errorClass: 'popup__error_visible'
 }
 enableValidation(settings);
+
+function renderUserInfo(data) {
+    const { name, about, avatar } = data;
+    currentName.textContent = name;
+    currentJob.textContent = about;
+    currentImage.style.backgroundImage = `url(${avatar})`;
+}
+
+Promise.all([fetchUserInfo(), fetchCards()])
+    .then(([userData, cardsData]) => {
+        renderUserInfo(userData);
+        pushCards(cardsData);
+    })
+    .catch(error => {
+        console.log(`Ошибка: ${error}`);
+    });
+
+
 

@@ -40,13 +40,13 @@
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="popup__form" name="edit-profile" novalidate>
 
-          <input type="text" id="name" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required
-            minlength="2" maxlength="40">
-            <span class="popup__input-error name-error"></span>
+          <input type="text" id="name" name="name" class="popup__input popup__input_type_name" placeholder="Имя"
+            required minlength="2" maxlength="40">
+          <span class="popup__input-error name-error"></span>
 
-          <input type="text" id="description" name="description" class="popup__input popup__input_type_description" placeholder="Занятие"
-            required minlength="2" maxlength="200">
-            <span class="popup__input-error description-error"></span>
+          <input type="text" id="description" name="description" class="popup__input popup__input_type_description"
+            placeholder="Занятие" required minlength="2" maxlength="200">
+          <span class="popup__input-error description-error"></span>
 
           <button type="submit" class="button popup__button">Сохранить</button>
         </form>
@@ -86,7 +86,10 @@
       <div class="card__description">
         <h2 class="card__title">
         </h2>
-        <button type="button" class="card__like-button"></button>
+        <div class="card__like">
+          <button type="button" class="card__like-button"> </button>
+          <span class="card__like-counter"></span>
+        </div>
       </div>
     </li>
   </template>

@@ -24,7 +24,7 @@ function checkInputValidity(formElement, inputElement, settings) {
     const inputValue = inputElement.value.trim();
 
     if (inputValue && !regex.test(inputValue) && inputElement.type !== 'url') {
-        inputElement.setCustomValidity('Поле может содержать только латинские и кириллические буквы, знаки дефиса и пробелы');
+        inputElement.setCustomValidity('Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы');
     } else {
         inputElement.setCustomValidity('');
     }
@@ -50,7 +50,7 @@ function hideInputError(formElement, inputElement, settings) {
     errorElement.textContent = '';
 }
 
-export function resetValidation(formElement, settings) {
+export function clearValidation(formElement, settings) {
     const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
     const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 

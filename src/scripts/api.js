@@ -1,11 +1,3 @@
-// Правильно организован код взаимодействия с сервером:
-// функции запросов к серверу описаны в отдельном файле api.js , а не в других модулях или index.js;
-// ответ сервера всегда проверяется на корректность проверкой res.ok;
-// действия с DOM-элементами на странице производятся только после завершения запроса;
-// в конце цепочки обработки каждого промиса обращения к серверу есть обработка ошибок;
-// базовый адрес сервера и ключ авторизации вынесены отдельно и переиспользуются;
-// для вставки данных, полученных с сервера, на страницу не используется innerHTML.
-
 const config = {
     baseUrl: 'https://nomoreparties.co/v1/wff-cohort-42/',
     headers: {
@@ -59,6 +51,51 @@ export function postCard(card) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(card)
+    })
+        .then(checkResponse);
+}
+
+export function deleteCardFromServer(cardId) {
+    return fetch(`${config.baseUrl}cards/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+            ...config.headers,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(checkResponse);
+}
+
+export function likeCardOnServer(cardId) {
+    return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: {
+            ...config.headers,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(checkResponse);
+}
+
+export function unlikeCardOnServer(cardId) {
+    return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+            ...config.headers,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(checkResponse);
+}
+
+export function updateAvatar(avatar) {
+    return fetch(`${config.baseUrl}users/me/avatar`, {
+        method: 'PATCH',
+        headers: {
+            ...config.headers,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({avatar: avatar})
     })
         .then(checkResponse);
 }

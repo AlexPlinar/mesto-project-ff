@@ -38,8 +38,8 @@ function checkInputValidity(formElement, inputElement, settings) {
 
 function showInputError(formElement, inputElement, settings) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(settings.inputErrorClass); // добавляем класс на INPUT для стилизации рамок
-    errorElement.classList.add(settings.errorClass); // добавляем класс на SPAN для вывода текста
+    inputElement.classList.add(settings.inputErrorClass); 
+    errorElement.classList.add(settings.errorClass); 
     errorElement.textContent = inputElement.validationMessage;
 }
 
@@ -74,14 +74,3 @@ function toggleButtonState(inputList, submitButton, settings) {
         submitButton.disabled = false;
     }
 }
-
-// addForm.addEventListener('input', handleAddFormInput);
-// editForm.addEventListener('input', handleEditFormInput);
-
-// function handleAddFormInput(evt) {
-//     console.log(evt.target.validity);
-// }
-
-// function handleEditFormInput(evt) {
-//     console.log(evt.target.validity);
-// }

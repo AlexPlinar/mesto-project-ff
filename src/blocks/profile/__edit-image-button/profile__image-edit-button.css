@@ -1,0 +1,15 @@
+.profile__image-edit-button {
+  width: 24px;
+  height: 24px;
+  background: transparent url('../../../images/edit-icon.svg') center no-repeat;
+  background-size: 26px 26px;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0;
+  z-index: 2;
+}

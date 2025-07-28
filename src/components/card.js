@@ -2,7 +2,7 @@ import { deleteCardFromServer, likeCardOnServer, unlikeCardOnServer } from "../s
 
 const cardTemplate = document.querySelector('#card-template').content;
 
-function createCard(arrayElement, deleteCard, like) {
+function createCard(arrayElement, deleteCard, like, userId, handleCardClick) {
 
     const newCardFragment = cardTemplate.cloneNode(true);
     const newCard = newCardFragment.querySelector('.card');
@@ -18,13 +18,15 @@ function createCard(arrayElement, deleteCard, like) {
     cardImg.alt = `Фотография места: ${arrayElement.name}`;
     likeCounter.textContent = arrayElement.likes.length;
 
+    cardImg.addEventListener('click', () => handleCardClick(arrayElement));
+
     arrayElement.likes.forEach(likeElement => {
-        if (likeElement._id === '0d4ae9487faefafd4947f3cc') {
+        if (likeElement._id === userId) {
             like(newCard);
         }
     });
 
-    if (arrayElement.owner._id !== '0d4ae9487faefafd4947f3cc') {
+    if (arrayElement.owner._id !== userId) {
         deleteButton.classList.add('card__delete-button_hidden');
         deleteButton.disabled = true;
     } else {

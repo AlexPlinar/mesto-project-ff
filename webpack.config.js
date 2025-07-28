@@ -13,6 +13,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
     publicPath: '/mesto-project-ff/',
+    // publicPath: '/',
   },
   mode: 'development',
   devServer: {

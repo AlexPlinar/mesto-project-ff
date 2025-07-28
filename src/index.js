@@ -52,24 +52,13 @@ addButton.addEventListener('click', () => {
     clearValidation(addForm, settings);
 });
 
-places.addEventListener('click', (evt) => {
-    const card = evt.target.closest('.card');
-    if (
-        !card ||
-        evt.target.classList.contains('card__delete-button') ||
-        evt.target.classList.contains('card__like-button')
-    ) {
-        return;
-    }
-    const cardImage = card.querySelector('.card__image');
-    const cardTitle = card.querySelector('.card__title');
-
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardImage.alt;
-    popupCaption.textContent = cardTitle.textContent;
+function handleCardClick(cardData) {
+    popupImage.src = cardData.link;
+    popupImage.alt = cardData.alt;
+    popupCaption.textContent = cardData.name;
 
     openPopup(imagePopup);
-});
+}
 
 function toggleSaveText(evt, isSaving) {
     const saveButton = evt.submitter;
@@ -92,31 +81,32 @@ function handleAvatarFormSubmit(evt) {
             renderUserInfo(data);
             avatarForm.reset();
             closePopup(avatarPopup);
-            toggleSaveText(evt, false);
         })
         .catch(error => {
             console.log(`Ошибка: ${error}`);
-        });
+        })
+        .finally(() => {
+            toggleSaveText(evt, false);
+        })
 }
 
 function handleEditFormSubmit(evt) {
     evt.preventDefault();
     toggleSaveText(evt, true);
 
-    currentName.textContent = nameInput.value;
-    currentJob.textContent = jobInput.value;
-
-    updateUserInfo(currentName.textContent, currentJob.textContent)
+    updateUserInfo(nameInput.value, jobInput.value)
         .then(data => {
-            toggleSaveText(evt, false);
+            currentName.textContent = data.name;
+            currentJob.textContent = data.about;
             editForm.reset();
             closePopup(editPopup);
         })
         .catch(error => {
-            console.log(`Ошибка: ${error}`);
+            console.log(`Ошибка при обновлении профиля: ${error}`);
         })
-
-
+        .finally(() => {
+            toggleSaveText(evt, false);
+        })
 }
 
 function handleAddFormSubmit(evt) {
@@ -135,22 +125,24 @@ function handleAddFormSubmit(evt) {
             pushCards(serverCard);
             closePopup(newCardPopup);
             addForm.reset();
-            toggleSaveText(evt, false);
         })
         .catch(error => {
             console.log(`Ошибка при добавлении карточки: ${error}`);
         })
+        .finally(() => {
+            toggleSaveText(evt, false);
+        })
 }
 
-export function pushCards(data) {
+export function pushCards(data, userId) {
 
     if (Array.isArray(data)) {
         data.forEach(function (item) {
-            placesList.append(createCard(item, removeCard, likeCard))
+            placesList.append(createCard(item, removeCard, likeCard, userId, handleCardClick))
         });
     }
     else {
-        placesList.prepend(createCard(data, removeCard, likeCard))
+        placesList.prepend(createCard(data, removeCard, likeCard, userId, handleCardClick))
     };
 };
 
@@ -173,8 +165,9 @@ function renderUserInfo(data) {
 
 Promise.all([fetchUserInfo(), fetchCards()])
     .then(([userData, cardsData]) => {
+        const userId = userData._id;
         renderUserInfo(userData);
-        pushCards(cardsData);
+        pushCards(cardsData, userId);
     })
     .catch(error => {
         console.log(`Ошибка: ${error}`);

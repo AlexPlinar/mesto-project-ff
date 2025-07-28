@@ -1,7 +1,5 @@
 export function enableValidation(settings) {
     const forms = Array.from(document.querySelectorAll(settings.formSelector));
-    console.log(forms);
-
     forms.forEach((formElement) => {
         setEventListeners(formElement, settings);
     })

@@ -7,11 +7,12 @@ import { openPopup, closePopup } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
 import { fetchUserInfo, fetchCards, updateUserInfo, postCard, updateAvatar } from './scripts/api.js';
 
+let userId = null;
+
 const placesList = document.querySelector('.places__list');
 const addForm = document.forms['new-place'];
 const editForm = document.forms['edit-profile'];
 const avatarForm = document.forms['edit-profile-image'];
-const places = document.querySelector('.places');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const avatarEditBtn = document.querySelector('.profile__image-edit-button');
@@ -122,7 +123,7 @@ function handleAddFormSubmit(evt) {
         .then(serverCard => {
             console.log('Карта добавлена на сервер: ');
             console.log(serverCard);
-            pushCards(serverCard);
+            pushCards(serverCard, userId);
             closePopup(newCardPopup);
             addForm.reset();
         })
@@ -165,7 +166,7 @@ function renderUserInfo(data) {
 
 Promise.all([fetchUserInfo(), fetchCards()])
     .then(([userData, cardsData]) => {
-        const userId = userData._id;
+        userId = userData._id;
         renderUserInfo(userData);
         pushCards(cardsData, userId);
     })
